@@ -14,6 +14,7 @@
     "finalhandler": "^0.4.1",
     "gulp": "^3.9.0",
     "gulp-nunjucks-render": "^1.1.0",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
     "jquery": "^2.2.0",
     "knockout": "^3.4.0",
