@@ -2,8 +2,6 @@ var $ = require('jquery');
 
 var ko = require('knockout');
 
-var pager = require('pagerjs');
-
 var PokemonManager = function PokemonManager () {
   var self = this;
 
