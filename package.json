@@ -1,0 +1,27 @@
+{
+  "name": "knockout-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "finalhandler": "^0.4.1",
+    "gulp": "^3.9.0",
+    "gulp-nunjucks-render": "^1.1.0",
+    "gulp-watch": "^4.3.5",
+    "jquery": "^2.2.0",
+    "knockout": "^3.4.0",
+    "lodash.assign": "^4.0.1",
+    "nunjucks": "^2.3.0",
+    "pagerjs": "^1.0.0",
+    "serve-static": "^1.10.2",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  }
+}

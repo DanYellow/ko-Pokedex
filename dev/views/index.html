@@ -1,0 +1,18 @@
+{% extends "layout/layout.html" %}
+
+{% block body %}
+
+<!-- ko if: pokemonList -->
+<ul data-bind="foreach: pokemonList">
+  <li>
+    <button data-bind="attr: { 'data-pokemon': $data.idDex }">
+      <img data-bind="attr: { src: $data.sprite }" height="90" />
+      <p data-bind="text: $data.name"></p>
+  </button></li>
+</ul>
+<!-- /ko -->
+
+<!-- ko if: pokemonDatas -->
+<span data-bind="text: pokemonDatas().name"></span>
+<!-- /ko -->
+{% endblock %}
