@@ -1,5 +1,5 @@
 {
-  "name": "knockout-test",
+  "name": "Pokedex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,19 +10,20 @@
   "license": "ISC",
   "devDependencies": {
     "babelify": "^7.2.0",
+    "bootstrap": "^3.3.6",
     "browserify": "^13.0.0",
+    "colors": "^1.1.2",
+    "crossroads": "^0.12.2",
     "finalhandler": "^0.4.1",
     "gulp": "^3.9.0",
     "gulp-nunjucks-render": "^1.1.0",
-    "gulp-util": "^3.0.7",
+    "gulp-sass": "^2.1.1",
     "gulp-watch": "^4.3.5",
+    "hasher": "^1.2.0",
     "jquery": "^2.2.0",
     "knockout": "^3.4.0",
-    "lodash.assign": "^4.0.1",
     "nunjucks": "^2.3.0",
-    "pagerjs": "^1.0.0",
     "serve-static": "^1.10.2",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
+    "underscore": "^1.8.3"
   }
 }

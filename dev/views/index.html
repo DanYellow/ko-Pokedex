@@ -2,9 +2,21 @@
 
 {% block body %}
 
-<!-- ko if: pokemonList -->
-<ul data-bind="foreach: pokemonList">
+<ul>
   <li>
+      <a href="#/home">home</a>
+  </li>
+  <li>
+      <a href="#/home">lorem</a>
+  </li>
+  <li>
+      <a href="#/home">lorem/ipsum</a>
+  </li>
+</ul>
+
+<!-- ko if: pokemonList -->
+<ul class="list-unstyled pokedex" data-bind="foreach: pokemonList">
+  <li class="pokedex-entry">
     <button data-bind="attr: { 'data-pokemon': $data.idDex }">
       <img data-bind="attr: { src: $data.sprite }" height="90" />
       <p data-bind="text: $data.name"></p>

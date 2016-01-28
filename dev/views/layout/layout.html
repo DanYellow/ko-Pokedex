@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <style type="text/css">
-    ul {
-    	font-style: 0;
-    }
-    li {
-    	display: inline-block;
-    	font-style: 12px;
-    	width: 120px;
-    	height: 120px;
-    	margin: 5px;
-    	border: 1px solid black;
-    }
-
-    p {
-    	text-transform: capitalize;
-    	padding: 0 3px;
-    }
-
-    ul li button {
-    	outline: none;
-    	border: none;
-    	background-color: transparent;
-    	width: 100%;
-    	height: 100%;
-    	display: block;
-    	padding: 0;
-    }
-    </style>
+    <title>Mon premier PoKÉdEx</title>
+    <link rel="stylesheet" href="assets/styles/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 </head>
 <body>
     {% block body %}{% endblock %}
+
+    <div class="modal fade pkmn-modal" tabindex="-1" role="dialog" data-bind="showModal:pokemonDatas, with:pokemonDatas">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                      <img class="pkmn-img" data-bind="attr: { src: sprite }" height="40" /> 
+                      <span class="pkmn-name" data-bind="text: name"></span>
+                    </h4>
+                    <ul class="list-unstyled pkmn-types" data-bind="foreach: types">
+                      <li data-bind="text: $data.name, attr: { 'class': $data.name }"></li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <!-- ko foreach: Object.keys(moves).sort() -->
+                      <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading" role="tab" data-bind="attr: { 'id': 'heading' + $index() }">
+                          <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" data-bind="attr: { 'aria-controls': 'collapse' + $index(), 'href': '#collapse' + $index() }, text: $data"></a>
+                          </h4>
+                        </div>
+
+                        <div class="panel-collapse collapse" 
+                             role="tabpanel" 
+                             data-bind="attr: { 'aria-labelledby': 'heading' + $index(), 'id': 'collapse' + $index() }">
+                          <!-- Table  -->
+                          <table class="table">
+                            <tbody data-bind="foreach: $parent.moves[$data]">
+                              <tr><td data-bind="text: name"></td>  </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    <!-- /ko -->
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="app.js"></script>
 </body>

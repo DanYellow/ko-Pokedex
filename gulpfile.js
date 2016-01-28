@@ -5,43 +5,37 @@ var nunjucksRender = require('gulp-nunjucks-render');
 
 
 gulp.task('templates', function(req, res) {
-  nunjucksRender.nunjucks.configure(['./dev/views/'], {watch: false});
+  nunjucksRender.nunjucks.configure(['./dev/views/'], {watch: true});
     return gulp.src('./dev/views/*.html')
       .pipe(nunjucksRender())
       .pipe(gulp.dest('public'));
 });
 
+var sass = require('gulp-sass');
+gulp.task('sass', function () {
+  gulp.src('./dev/assets/stylesheets/**/*.scss')
+    .pipe(sass({outputStyle: 'outputStyle'}).on('error', sass.logError))
+    .pipe(gulp.dest('./public/assets/styles'));
+});
 
 var browserify = require('browserify');
-var watchify = require('watchify');
 var source = require('vinyl-source-stream');
-var assign = require('lodash.assign');
 var babelify = require("babelify");
-var gutil = require('gulp-util');
 
-var customOpts = {
-  entries: ['dev/assets/scripts/app.js'],
-  debug: true
-};
-var opts = assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts).transform("babelify", {extensions: [".js"]})); 
 
-// add transformations here
-// i.e. b.transform(coffeeify);
+gulp.task('browserify', function() {
+    return browserify('./dev/assets/scripts/app.js').transform("babelify", {extensions: [".js"]})
+        .bundle()
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('app.js'))
+        // Start piping stream to tasks!
+        .pipe(gulp.dest('./public/'));
+});
 
-gulp.task('browserify', bundle); // so you can run `gulp js` to build the file
-b.on('update', bundle); // on any dep update, runs the bundler
-b.on('log', gutil.log); // output build logs to terminal
+gulp.task('default', ['templates', 'browserify', 'sass']);
 
-function bundle() {
-  return b.bundle()
-    // log errors if they happen
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    
-    .pipe(source('app.js'))
-    // optional, remove if you don't need to buffer file contents
-    // Add transformation tasks to the pipeline here.
-    .pipe(gulp.dest('./public'));
-}
-
-gulp.task('default', ['templates', 'browserify']);
+gulp.task('watch', ['browserify'], function() {
+    gulp.watch('./dev/assets/stylesheets/**/*.scss', ['sass']);
+    gulp.watch('./dev/views/**/*.html', ['templates']);
+    gulp.watch('./dev/assets/scripts/**/*.js', ['browserify']);
+});

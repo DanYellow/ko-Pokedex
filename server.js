@@ -11,6 +11,9 @@ var server = http.createServer(function(req, res) {
   serve(req, res, done);
 });
 
+
+var colors = require('colors');
+
 server.listen(7000, function(){
-	console.log("Server started at port : 7000");
+	console.log("Server run at localhost:7000".inverse);
 });
