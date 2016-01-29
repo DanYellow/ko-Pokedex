@@ -34,7 +34,7 @@ gulp.task('browserify', function() {
 
 gulp.task('default', ['templates', 'browserify', 'sass']);
 
-gulp.task('watch', ['browserify'], function() {
+gulp.task('watch', ['default'], function() {
     gulp.watch('./dev/assets/stylesheets/**/*.scss', ['sass']);
     gulp.watch('./dev/views/**/*.html', ['templates']);
     gulp.watch('./dev/assets/scripts/**/*.js', ['browserify']);

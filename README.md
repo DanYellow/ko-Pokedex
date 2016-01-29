@@ -1,9 +1,9 @@
 # ko-Pokedex
 A wonderful Pokedex with knockout.js
 
-How to start
+# How to start
 
-- npm i
-- run node server.js
-- run gulp
-- go to localhost:7000
+- In your terminal : npm i
+- In your terminal : run node server.js
+- In your terminal : run gulp watch
+- Go to localhost:7000

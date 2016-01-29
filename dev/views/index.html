@@ -19,7 +19,11 @@
   <li class="pokedex-entry">
     <button data-bind="attr: { 'data-pokemon': $data.idDex }">
       <img data-bind="attr: { src: $data.sprite }" height="90" />
-      <p data-bind="text: '#' + $index() + ' ' + $data.name"></p>
+      <p>
+        <span class="pkmn-idDex" data-bind="text: '#' + $index() + ' '"></span>
+        <br/>
+        <span data-bind="text: $data.name"></span>
+      </p>
     </button>
   </li>
 </ul>
