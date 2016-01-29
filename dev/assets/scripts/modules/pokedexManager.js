@@ -39,22 +39,33 @@ var PokedexManager = function PokedexManager () {
       cache: false
     })
     .done(function( pkmn ) {
-      self.pokemonDatas(self.pkmnController.object(pkmn));
+      var pkmnProcessed = self.pkmnController.object(pkmn);
+      self.pokemonDatas(pkmnProcessed);
+      self.fetchPokemonByRegion(pkmnProcessed['region'])
     });
   }
 
-  this.fetchAllPokemon = function fetchAllPokemon() {
+  this.fetchAllPokemon = function fetchAllPokemon(region) {
     $.ajax({
       url: "http://pokeapi.co/api/v1/pokedex/1/",
       cache: false
     })
     .done(function( result ) {
-      self.fetchPokemonListDatas(result.pokemon);
+      self.fetchPokemonListDatas(result.pokemon, region);
     });
   }
-  this.fetchAllPokemon();
+  
 
   this.fetchPokemonByRegion = function fetchPokemonByRegion(regionName) {
+    if (self.pokemonListAll.length === 0) {
+      self.fetchAllPokemon(regionName);
+
+      return;
+    };
+
+    regionName = String(regionName).toLowerCase();
+
+    if ( Object.keys(self.regions()).indexOf(regionName) > -1 || regionName === String('tseho').toLowerCase() ) {};
     var pkmnRegion =  _.filter(self.pokemonListAll, function(pkmn){
       /*
         TSEHO MODE
@@ -68,13 +79,13 @@ var PokedexManager = function PokedexManager () {
         D
         E
        */
-      if (String(regionName).toLowerCase() === "tseho" && String(pkmn.region).toLowerCase() == "kanto".toLowerCase()) {
+      // if the filter is equals to "Tseho", it return only pokemon of the first generation
+      if (regionName === "tseho" && String(pkmn.region).toLowerCase() == "kanto".toLowerCase()) {
         return true;
       }
-      return String(pkmn.region).toLowerCase() === String(regionName).toLowerCase(); 
+      return String(pkmn.region).toLowerCase() === regionName; 
     } );
     self.pokemonList(pkmnRegion);
-    console.log('fetchPokemonByRegion');
   }
 
   
@@ -85,12 +96,13 @@ var PokedexManager = function PokedexManager () {
 
     @param list - {Array} : The list of Pokemon from the server
    */
-  this.fetchPokemonListDatas = function fetchPokemonListDatas(list) {
-    var pkmnArray = list.map(function(pkmn) {
+  this.fetchPokemonListDatas = function fetchPokemonListDatas(list, region) {
+    var pkmnArray = list.map(function(pkmn, index) {
       var idDex = Helpers.idDex(pkmn);
       pkmn["idDex"] = idDex;
       pkmn["sprite"] = `http://pokeapi.co/media/img/${idDex}.png`
       
+      // We assignate to the Pokemon its regions (aka his generation)
       _.each(self.regions(), (val) => {
         if (Helpers.inRange(idDex, val.range[0], val.range[1])) {
           pkmn["region"] = val.name;
@@ -101,6 +113,7 @@ var PokedexManager = function PokedexManager () {
       return pkmn;
     });
 
+    // We remove extra transformations (Mega-Evolutions, Forms-A/B/C/Whatever)
     pkmnArray = pkmnArray.filter(function(pkmn) {
       if (pkmn["idDex"] > 721) {
         return false;
@@ -109,14 +122,21 @@ var PokedexManager = function PokedexManager () {
       }
     });
 
+
     // order pokemon id
     pkmnArray = pkmnArray.sort(function(a, b) {
         return a.idDex - b.idDex;
     });
 
-    self.pokemonListAll = pkmnArray;
+    // It's the first time we display the datas
+    if (self.pokemonListAll.length == 0) {
+      var pkmnArrayFilter = pkmnArray.filter(function(pkmn) {
+        return String(pkmn.region).toLowerCase() === region; 
+      });
+      self.pokemonList(pkmnArrayFilter);
+    };
 
-    self.pokemonList(pkmnArray);
+    self.pokemonListAll = pkmnArray;
   }
 }
 

@@ -8,8 +8,14 @@ var Helpers = require('./utils');
 
 var PokemonManager = function PokemonManager (datas) {
  
-  // datas["types"] = this.types(datas["types"]);
-  
+  var kantoRange  = { 'name': 'kanto', 'range': [1, 151] };
+  var johtoRange  = { 'name': 'johto', 'range': [152, 251] };
+  var hoennRange  = { 'name': 'hoenn', 'range': [252, 386] };
+  var sinnohRange = { 'name': 'sinnoh', 'range': [387, 493] };
+  var unysRange   = { 'name': 'unys', 'range': [494, 649] };
+  var kalosRange  = { 'name': 'kalos', 'range': [650, 721] };
+
+  this.regions = [kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange];
 }
 
 PokemonManager.prototype.object = function(datas) {
@@ -18,6 +24,8 @@ PokemonManager.prototype.object = function(datas) {
   datas['sprite'] = `http://pokeapi.co/media/img/${idDex}.png`
 
   datas['evolutions'] = this.evolutions(datas['evolutions']);
+
+  datas['region'] = this.region(idDex)
 
   return datas;
 };
@@ -38,7 +46,6 @@ PokemonManager.prototype.moves = function(moves) {
   });
 
   return tempMoves;
-  
 };
 
 PokemonManager.prototype.evolutions = function(evolutions) {
@@ -50,6 +57,18 @@ PokemonManager.prototype.evolutions = function(evolutions) {
 
     return evol;
   });
+};
+
+PokemonManager.prototype.region = function(idDex) {
+  var region;
+  _.each(this.regions, (val) => {
+    if (Helpers.inRange(idDex, val.range[0], val.range[1])) {
+      region = val.name;
+      return true;
+    };
+  });
+
+  return region;
 };
 
 module.exports = PokemonManager; 

@@ -27,7 +27,7 @@
                     <li class="pkmn-evolutions__item">
                       <img data-bind="attr: {src: $data.sprite }" height="60" />
                       <!-- ko ifnot: $data.hasOwnProperty("level") -->
-                        <a class="pkmn-name" data-bind="text: to, attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
+                        <a class="pkmn-name" data-bind="text: to + ' (method: ' + method + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
                       <!-- /ko -->
 
                       <!-- ko if: $data.hasOwnProperty("level") -->
@@ -70,7 +70,7 @@
 
       <!-- ko if: $data.hasOwnProperty("level") -->
         <td data-bind="text: level"></td>
-      <!-- /ko -->
+      <!-- /ko --> 
     </script>
 
     <script type="text/javascript" src="app.js"></script>

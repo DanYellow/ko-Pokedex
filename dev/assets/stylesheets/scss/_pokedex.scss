@@ -1,3 +1,14 @@
+.pokedex-regions {
+  font-size: 0;
+  padding: 15px;
+  li {
+    font-size: 14px;
+    display: inline-block;
+    text-transform: capitalize;
+    padding: 5px;
+  }
+}
+
 .pokedex {
   font-style: 0;
 
@@ -240,6 +251,15 @@
           background-color: #b79f37;
         }
       }
+    }
+  }
+
+  .pkmn-evolutions {
+    display: table;
+    width: 100%;
+
+    .pkmn-evolutions__item {
+      display: table-cell;
     }
   }
 }

@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<ul  data-bind="foreach: regions">
+<ul class="pokedex-regions list-unstyled" data-bind="foreach: regions">
   <li>
       <a data-bind="attr: { href: '#/region/' + $data.name }, text: $data.name"></a>
   </li>
@@ -22,7 +22,4 @@
 </ul>
 <!-- /ko -->
 
-<!-- ko if: pokemonDatas -->
-<span data-bind="text: pokemonDatas().name"></span>
-<!-- /ko -->
 {% endblock %}
