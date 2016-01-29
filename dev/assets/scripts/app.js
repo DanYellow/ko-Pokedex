@@ -23,7 +23,6 @@ crossroads.routed.add(console.log, console); //log all routes
 //setup hasher
 function parseHash(newHash, oldHash){
   crossroads.parse(newHash);
-  console.log('hash')
 }
 hasher.initialized.add(parseHash); // parse initial hash
 hasher.changed.add(parseHash); //parse hash changes

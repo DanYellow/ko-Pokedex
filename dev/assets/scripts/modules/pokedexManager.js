@@ -65,7 +65,10 @@ var PokedexManager = function PokedexManager () {
 
     regionName = String(regionName).toLowerCase();
 
-    if ( Object.keys(self.regions()).indexOf(regionName) > -1 || regionName === String('tseho').toLowerCase() ) {};
+    // If the region name doesn't exist
+    if ( Object.keys(self.regions()).indexOf(regionName) > -1 || regionName === String('tseho').toLowerCase() ) {
+      self.pokemonList(self.pokemonListAll);
+    };
     var pkmnRegion =  _.filter(self.pokemonListAll, function(pkmn){
       /*
         TSEHO MODE
@@ -129,10 +132,16 @@ var PokedexManager = function PokedexManager () {
     });
 
     // It's the first time we display the datas
-    if (self.pokemonListAll.length == 0) {
+    if (self.pokemonListAll.length === 0) {
       var pkmnArrayFilter = pkmnArray.filter(function(pkmn) {
         return String(pkmn.region).toLowerCase() === region; 
       });
+      console.log(pkmnArrayFilter);
+      if (pkmnArrayFilter.length === 0) {
+        pkmnArrayFilter = pkmnArray;
+      };
+
+
       self.pokemonList(pkmnArrayFilter);
     };
 
