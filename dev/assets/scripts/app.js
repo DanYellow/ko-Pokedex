@@ -1,15 +1,20 @@
-require('./modules/pokedexManager');
-
-
 var crossroads = require('crossroads');
 var hasher = require('hasher');
+var ko = require('knockout');
 
+var PokedexManager = require('./modules/pokedexManager');
+
+var pokedexManager = new PokedexManager();
 
 //setup crossroads
-crossroads.addRoute('home');
-crossroads.addRoute('foo');
-crossroads.addRoute('lorem/ipsum');
+crossroads.addRoute('pkmn/{id}', function(id){
+  pokedexManager.fetchPokemon(id);
+});
+
+ko.applyBindings(pokedexManager);
+
 crossroads.routed.add(console.log, console); //log all routes
+
 
 //setup hasher
 function parseHash(newHash, oldHash){
