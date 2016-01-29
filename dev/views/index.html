@@ -2,15 +2,9 @@
 
 {% block body %}
 
-<ul>
+<ul  data-bind="foreach: regions">
   <li>
-      <a href="#/home">home</a>
-  </li>
-  <li>
-      <a href="#/home">lorem</a>
-  </li>
-  <li>
-      <a href="#/home">lorem/ipsum</a>
+      <a data-bind="attr: { href: '#/region/' + $data.name }, text: $data.name"></a>
   </li>
 </ul>
 

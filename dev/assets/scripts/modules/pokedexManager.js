@@ -21,14 +21,15 @@ var PokedexManager = function PokedexManager () {
   var johtoRange  = { 'name': 'johto', 'range': [152, 251] };
   var hoennRange  = { 'name': 'hoenn', 'range': [252, 386] };
   var sinnohRange = { 'name': 'sinnoh', 'range': [387, 493] };
-  var unysRange   = { 'name': 'unys', 'range': [494, 629] };
-  var kalosRange  = { 'name': 'kalos', 'range': [630, 721] };
+  var unysRange   = { 'name': 'unys', 'range': [494, 649] };
+  var kalosRange  = { 'name': 'kalos', 'range': [650, 721] };
 
-  var regionsRange = [kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange];
-
+  this.regions = ko.observableArray([kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange]);
 
   this.pokemonDatas = ko.observable(false);
   this.pokemonList = ko.observableArray();
+
+  this.pokemonListAll = []
 
   this.pkmnController = new PokemonManager();
 
@@ -51,8 +52,32 @@ var PokedexManager = function PokedexManager () {
       self.fetchPokemonListDatas(result.pokemon);
     });
   }
-
   this.fetchAllPokemon();
+
+  this.fetchPokemonByRegion = function fetchPokemonByRegion(regionName) {
+    var pkmnRegion =  _.filter(self.pokemonListAll, function(pkmn){
+      /*
+        TSEHO MODE
+        S
+        E
+        H
+        O
+
+        M
+        O
+        D
+        E
+       */
+      if (String(regionName).toLowerCase() === "tseho" && String(pkmn.region).toLowerCase() == "kanto".toLowerCase()) {
+        return true;
+      }
+      return String(pkmn.region).toLowerCase() === String(regionName).toLowerCase(); 
+    } );
+    self.pokemonList(pkmnRegion);
+    console.log('fetchPokemonByRegion');
+  }
+
+  
 
   /*
     @fetchPokemonListDatas
@@ -62,13 +87,11 @@ var PokedexManager = function PokedexManager () {
    */
   this.fetchPokemonListDatas = function fetchPokemonListDatas(list) {
     var pkmnArray = list.map(function(pkmn) {
-      var idDex = pkmn["resource_uri"].split('/').filter(Boolean)[pkmn["resource_uri"].split('/').filter(Boolean).length - 1];
+      var idDex = Helpers.idDex(pkmn);
       pkmn["idDex"] = idDex;
-      
       pkmn["sprite"] = `http://pokeapi.co/media/img/${idDex}.png`
       
-
-      _.each(regionsRange, (val) => {
+      _.each(self.regions(), (val) => {
         if (Helpers.inRange(idDex, val.range[0], val.range[1])) {
           pkmn["region"] = val.name;
           return true;
@@ -91,6 +114,8 @@ var PokedexManager = function PokedexManager () {
         return a.idDex - b.idDex;
     });
 
+    self.pokemonListAll = pkmnArray;
+
     self.pokemonList(pkmnArray);
   }
 }
@@ -100,12 +125,11 @@ ko.bindingHandlers.showModal = {
   update: function (element, valueAccessor) {
       var value = valueAccessor();
       if (ko.utils.unwrapObservable(value)) {
-          $(element).modal('show');
-            // this is to focus input field inside dialog
-          }
-          else {
-            $(element).modal('hide');
-          }
+        $(element).modal('show');
+          // this is to focus input field inside dialog
+        } else {
+          $(element).modal('hide');
+        }
       }
   };
 

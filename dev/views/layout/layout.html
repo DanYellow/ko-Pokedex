@@ -22,13 +22,27 @@
                     </ul>
                 </div>
                 <div class="modal-body">
+                  <h4 data-bind="if: evolutions.length > 0">Evolves to</h4>
+                  <ul class="pkmn-evolutions list-unstyled" data-bind="foreach: evolutions">
+                    <li class="pkmn-evolutions__item">
+                      <img data-bind="attr: {src: $data.sprite }" height="60" />
+                      <!-- ko ifnot: $data.hasOwnProperty("level") -->
+                        <a class="pkmn-name" data-bind="text: to, attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
+                      <!-- /ko -->
+
+                      <!-- ko if: $data.hasOwnProperty("level") -->
+                        <a class="pkmn-name" data-bind="text: to + ' (level: ' + level + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
+                      <!-- /ko -->
+                    </li>
+                  </ul>
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <h4 data-bind="if: Object.keys(moves).length > 0">Moves list</h4>
                     <!-- ko foreach: Object.keys(moves).sort() -->
                       <div class="panel panel-default">
                         <!-- Default panel contents -->
                         <div class="panel-heading" role="tab" data-bind="attr: { 'id': 'heading' + $index() }">
                           <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" data-bind="attr: { 'aria-controls': 'collapse' + $index(), 'href': '#collapse' + $index() }, text: $data"></a>
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" data-bind="attr: { 'aria-controls': 'collapse' + $index(), 'href': '#collapse' + $index() }, text: 'By ' + $data"></a>
                           </h4>
                         </div>
 
@@ -38,7 +52,7 @@
                           <!-- Table  -->
                           <table class="table">
                             <tbody data-bind="foreach: $parent.moves[$data]">
-                              <tr><td data-bind="text: name"></td></tr>
+                              <tr data-bind="template: { name: 'pkmnAttk-tpl', data: $data }">
                             </tbody>
                           </table>
                         </div>
@@ -49,6 +63,15 @@
             </div>
         </div>
     </div>
+
+    <script type="text/html" id="pkmnAttk-tpl">
+
+      <td data-bind="text: name"></td>
+
+      <!-- ko if: $data.hasOwnProperty("level") -->
+        <td data-bind="text: level"></td>
+      <!-- /ko -->
+    </script>
 
     <script type="text/javascript" src="app.js"></script>
 </body>

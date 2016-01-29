@@ -11,6 +11,10 @@ crossroads.addRoute('pkmn/{id}', function(id){
   pokedexManager.fetchPokemon(id);
 });
 
+crossroads.addRoute('region/{name}', function(name){
+  pokedexManager.fetchPokemonByRegion(name);
+});
+
 ko.applyBindings(pokedexManager);
 
 crossroads.routed.add(console.log, console); //log all routes
