@@ -24,14 +24,21 @@ var PokedexManager = function PokedexManager () {
   var unysRange   = { 'name': 'unys', 'range': [494, 649] };
   var kalosRange  = { 'name': 'kalos', 'range': [650, 721] };
 
-  this.regions = ko.observableArray([kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange]);
 
+  this.regions = [kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange];
+
+  this.underscore = _;
+
+
+  console.log(_.pluck(this.regions, "name"));
   this.pokemonDatas = ko.observable(false);
   this.pokemonList = ko.observableArray();
 
-  this.pokemonListAll = []
+  this.pokemonListAll = [];
 
   this.pkmnController = new PokemonManager();
+
+  this.dexItemEnded = _.debounce(this.pkmnListRenderingEnd, 100);
 
   this.fetchPokemon = function fetchPokemon(id) {
     $.ajax({
@@ -57,6 +64,7 @@ var PokedexManager = function PokedexManager () {
   
 
   this.fetchPokemonByRegion = function fetchPokemonByRegion(regionName) {
+    document.getElementById('loader').classList.remove("is-hidden");
     if (self.pokemonListAll.length === 0) {
       self.fetchAllPokemon(regionName);
 
@@ -66,7 +74,7 @@ var PokedexManager = function PokedexManager () {
     regionName = String(regionName).toLowerCase();
 
     // If the region name doesn't exist
-    if ( Object.keys(self.regions()).indexOf(regionName) > -1 || regionName === String('tseho').toLowerCase() ) {
+    if ( Object.keys(self.regions).indexOf(regionName) > -1 || regionName === String('tseho').toLowerCase() ) {
       self.pokemonList(self.pokemonListAll);
     };
     var pkmnRegion =  _.filter(self.pokemonListAll, function(pkmn){
@@ -106,7 +114,7 @@ var PokedexManager = function PokedexManager () {
       pkmn["sprite"] = `http://pokeapi.co/media/img/${idDex}.png`
       
       // We assignate to the Pokemon its regions (aka his generation)
-      _.each(self.regions(), (val) => {
+      _.each(self.regions, (val) => {
         if (Helpers.inRange(idDex, val.range[0], val.range[1])) {
           pkmn["region"] = val.name;
           return true;
@@ -136,7 +144,7 @@ var PokedexManager = function PokedexManager () {
       var pkmnArrayFilter = pkmnArray.filter(function(pkmn) {
         return String(pkmn.region).toLowerCase() === region; 
       });
-      console.log(pkmnArrayFilter);
+     
       if (pkmnArrayFilter.length === 0) {
         pkmnArrayFilter = pkmnArray;
       };
@@ -149,10 +157,20 @@ var PokedexManager = function PokedexManager () {
   }
 }
 
+PokedexManager.prototype.pkmnListRenderingEnd = function () {
+  document.getElementById('loader').classList.add("is-hidden");
+}
+
 ko.bindingHandlers.showModal = {
   init: function (element, valueAccessor) {},
   update: function (element, valueAccessor) {
       var value = valueAccessor();
+      document.getElementById('loader').classList.remove("is-hidden");
+
+      $(element).on('shown.bs.modal', function() {
+        document.getElementById('loader').classList.add("is-hidden");
+      });
+
       if (ko.utils.unwrapObservable(value)) {
         $(element).modal('show');
           // this is to focus input field inside dialog

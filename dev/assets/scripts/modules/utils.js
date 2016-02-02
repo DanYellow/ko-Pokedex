@@ -34,3 +34,11 @@ module.exports = {
     return pkmn["resource_uri"].split('/').filter(Boolean)[pkmn["resource_uri"].split('/').filter(Boolean).length - 1];
   }
 };
+
+
+
+Array.prototype.CIindexOf = function (searchElement, fromIndex) {
+    return this.map(function (value) {
+        return value.toLowerCase();
+    }).indexOf(searchElement.toLowerCase(), fromIndex);
+};

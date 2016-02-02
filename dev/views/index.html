@@ -9,17 +9,47 @@
 </ul>
 
 <!-- ko if: pokemonList -->
-<ul class="list-unstyled pokedex" data-bind="foreach: pokemonList">
-  <li class="pokedex-entry" data-bind="attr: { 'class' : 'pokedex-entry ' + $data.region }">
-    <a data-bind="attr: { 'data-pokemon': $data.idDex, href: '#/pkmn/' + $data.idDex }" class="pokedex-entry__pkmn">
-      <img data-bind="attr: { src: $data.sprite }" height="90" />
+<ul class="list-unstyled pokedex" data-bind="foreach:{ data: pokemonList, as: 'pkmn' }">
+  <!-- ko if: ($index() === 0) && $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) - 1] -->
+    <li class="pokedex-entry">
+      <a data-bind="attr: { href: '#/region/' + $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) - 1] }" class="pokedex-entry__pkmn">
+        <p>
+          <span class="pkmn-name">Previous Region</span>
+          <script type="text/javascript">
+          var nextRegion = 1;
+          </script>
+          <span class="pkmn-idDex" data-bind="text: $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) - 1]"></span>
+        </p>
+      </a>
+    </li>
+  <!-- /ko -->
+  <li class="pokedex-entry" data-bind="attr: { 'class' : 'pokedex-entry ' + pkmn.region }, 
+                                       template: { afterRender: $parent.dexItemEnded }">
+    <a data-bind="attr: { 'data-pokemon': pkmn.idDex, href: '#/pkmn/' + pkmn.idDex }" class="pokedex-entry__pkmn">
+      <img data-bind="attr: { src: pkmn.sprite }" height="90" />
       <p>
-        <span class="pkmn-idDex" data-bind="text: '#' + $data.idDex + ' '"></span>
-        <span data-bind="text: $data.name" class="pkmn-name"></span>
+        <span class="pkmn-idDex" data-bind="text: '#' + pkmn.idDex + ' '"></span>
+        <span data-bind="text: pkmn.name" class="pkmn-name"></span>
       </p>
     </a>
   </li>
+  <!-- ko if: ($index() === ($parent.pokemonList().length - 1)) && $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) + 1] -->
+  <li class="pokedex-entry">
+    <a data-bind="attr: { href: '#/region/' + $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) + 1] }" class="pokedex-entry__pkmn">
+      <p>
+        <span class="pkmn-name">Next Region</span>
+        <script type="text/javascript">
+        var nextRegion = 1;
+        </script>
+        <span class="pkmn-idDex" data-bind="text: $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) + 1]"></span>
+      </p>
+    </a>
+  </li>
+  <!-- /ko -->
 </ul>
 <!-- /ko -->
 
+
 {% endblock %}
+
+

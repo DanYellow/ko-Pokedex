@@ -18,6 +18,11 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./public/assets/styles'));
 });
 
+gulp.task('images', function () {
+  gulp.src('./dev/assets/images/**/*')
+    .pipe(gulp.dest('./public/assets/images/'));
+});
+
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var babelify = require("babelify");
@@ -32,10 +37,11 @@ gulp.task('browserify', function() {
         .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('default', ['templates', 'browserify', 'sass']);
+gulp.task('default', ['templates', 'browserify', 'sass', 'images']);
 
 gulp.task('watch', ['default'], function() {
     gulp.watch('./dev/assets/stylesheets/**/*.scss', ['sass']);
     gulp.watch('./dev/views/**/*.html', ['templates']);
     gulp.watch('./dev/assets/scripts/**/*.js', ['browserify']);
+    gulp.watch('./dev/assets/images/**/*', ['images']);
 });
