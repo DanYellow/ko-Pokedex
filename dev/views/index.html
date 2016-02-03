@@ -11,10 +11,10 @@
 <!-- ko if: pokemonList -->
 <ul class="list-unstyled pokedex" data-bind="foreach:{ data: pokemonList, as: 'pkmn' }">
   <!-- ko if: ($index() === 0) && $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) - 1] -->
-    <li class="pokedex-entry">
+    <li class="pokedex-entry prev-region">
       <a data-bind="attr: { href: '#/region/' + $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) - 1] }" class="pokedex-entry__pkmn">
         <p>
-          <span class="pkmn-name">Previous Region</span>
+          <span class="pkmn-name">← Previous Region</span>
           <script type="text/javascript">
           var nextRegion = 1;
           </script>
@@ -34,10 +34,10 @@
     </a>
   </li>
   <!-- ko if: ($index() === ($parent.pokemonList().length - 1)) && $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) + 1] -->
-  <li class="pokedex-entry">
+  <li class="pokedex-entry next-region">
     <a data-bind="attr: { href: '#/region/' + $parent.underscore.pluck($parent.regions, 'name')[$parent.underscore.pluck($parent.regions, 'name').indexOf(pkmn.region) + 1] }" class="pokedex-entry__pkmn">
       <p>
-        <span class="pkmn-name">Next Region</span>
+        <span class="pkmn-name">Next Region →</span>
         <script type="text/javascript">
         var nextRegion = 1;
         </script>

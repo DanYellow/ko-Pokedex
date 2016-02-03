@@ -19,25 +19,34 @@ var PokemonManager = function PokemonManager (datas) {
 }
 
 PokemonManager.prototype.object = function(datas) {
-  datas['moves'] = this.moves(datas['moves']);
-  var idDex = datas["national_id"];
-  datas['sprite'] = `http://pokeapi.co/media/img/${idDex}.png`
-
+  datas['moves']      = this.moves(datas['moves']);
+  var idDex           = datas["national_id"];
+  datas['sprite']     = `http://pokeapi.co/media/img/${idDex}.png`
+  
   datas['evolutions'] = this.evolutions(datas['evolutions']);
+  datas['region']     = this.region(idDex);
+  datas['abilities']  = this.abilities(datas['abilities']);
 
-  datas['region'] = this.region(idDex)
 
   return datas;
 };
 
-/*
-    @desc : get Pokemon's types
-
-    @returns : return array
+/**
+ * @desc get Pokemon's types
+ *
+ * @returns {Array}
  */
+
 PokemonManager.prototype.types = function(typesArray) {
   return _.pluck(typesArray, 'name');
 };
+
+
+/**
+ * @desc get Pokemon's moves
+ *
+ * @returns {Array}
+ */
 
 PokemonManager.prototype.moves = function(moves) {
   var tempMoves = _.mapObject(_.groupBy(moves, 'learn_type'), function(moves) {
@@ -48,16 +57,32 @@ PokemonManager.prototype.moves = function(moves) {
   return tempMoves;
 };
 
+
+/**
+ * @desc get Pokemon's evolutions
+ *
+ * @returns {Array}
+ */
+
 PokemonManager.prototype.evolutions = function(evolutions) {
   var idDex = 0
-  return _.map(evolutions, function(evol) {
+  var tempArray = _.map(evolutions, function(evol) {
     idDex = Helpers.idDex(evol); 
     evol['sprite'] = `http://pokeapi.co/media/img/${idDex}.png`
     evol['idDex'] = idDex;
 
     return evol;
   });
+
+  return _.sortBy(tempArray, 'idDex');
 };
+
+
+/**
+ * @desc get Pokemon's region origin aka its generation
+ *
+ * @returns {String}
+ */
 
 PokemonManager.prototype.region = function(idDex) {
   var region;
@@ -70,6 +95,19 @@ PokemonManager.prototype.region = function(idDex) {
 
   return region;
 };
+
+
+/**
+ * @desc get Pokemon abilities ("Talents" (Gen. 6+) or "Capacités spéciales" (Gen 3-5) in French)
+ *
+ * @returns {Array}
+ */
+
+PokemonManager.prototype.abilities = function(abilities) {
+  return _.pluck(abilities, 'name');
+};
+
+
 
 module.exports = PokemonManager; 
 

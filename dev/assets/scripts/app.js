@@ -9,20 +9,21 @@ var pokedexManager = new PokedexManager();
 //setup crossroads
 crossroads.addRoute('pkmn/{id}', function(id){
   pokedexManager.fetchPokemon(id);
+  document.getElementById('loader').classList.remove("is-hidden");
 });
 
 crossroads.addRoute('region/{name}', function(name){
   pokedexManager.fetchPokemonByRegion(name);
+  document.getElementById('loader').classList.remove("is-hidden");
 });
 
-crossroads.addRoute('/', function(name){
-	console.log('pokedexManager');
-  // pokedexManager.fetchPokemonByRegion(name);
-});
+crossroads.addRoute(':rest*:', function(name){
+  pokedexManager.fetchPokemonByRegion('all');
+}, -Infinity);
 
 ko.applyBindings(pokedexManager);
 
-crossroads.routed.add(console.log, console); //log all routes
+// crossroads.routed.add(console.log, console); //log all routes
 
 
 //setup hasher

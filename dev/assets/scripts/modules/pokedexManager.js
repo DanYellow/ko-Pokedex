@@ -27,10 +27,10 @@ var PokedexManager = function PokedexManager () {
 
   this.regions = [kantoRange, johtoRange, hoennRange, sinnohRange, unysRange, kalosRange];
 
+  // This property allows to use underscore's property 
   this.underscore = _;
 
 
-  console.log(_.pluck(this.regions, "name"));
   this.pokemonDatas = ko.observable(false);
   this.pokemonList = ko.observableArray();
 
@@ -165,7 +165,6 @@ ko.bindingHandlers.showModal = {
   init: function (element, valueAccessor) {},
   update: function (element, valueAccessor) {
       var value = valueAccessor();
-      document.getElementById('loader').classList.remove("is-hidden");
 
       $(element).on('shown.bs.modal', function() {
         document.getElementById('loader').classList.add("is-hidden");

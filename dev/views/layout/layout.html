@@ -3,7 +3,10 @@
 <head>
     <title>Mon premier PoKÉdEx</title>
     <link rel="stylesheet" href="assets/styles/main.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="favicon.ico" />
+
 </head>
 <body>
     <figure id="loader">
@@ -24,22 +27,35 @@
                       <li data-bind="text: $data.name, attr: { 'class': $data.name }"></li>
                     </ul>
                 </div>
-                <div class="modal-body">
-                  <h4 data-bind="if: evolutions.length > 0">Evolves to</h4>
-                  <ul class="pkmn-evolutions list-unstyled" data-bind="foreach: evolutions">
-                    <li class="pkmn-evolutions__item">
-                      <img data-bind="attr: {src: $data.sprite }" height="60" />
-                      <!-- ko ifnot: $data.hasOwnProperty("level") -->
-                        <a class="pkmn-name" data-bind="text: to + ' (method: ' + method + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
-                      <!-- /ko -->
 
-                      <!-- ko if: $data.hasOwnProperty("level") -->
-                        <a class="pkmn-name" data-bind="text: to + ' (level: ' + level + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
-                      <!-- /ko -->
-                    </li>
-                  </ul>
+                <div class="modal-body">
+
+                  <!-- ko if: evolutions.length > 0 -->
+                    <h4 class="caracteristic">Evolves to</h4>
+                    <ul class="pkmn-evolutions list-unstyled" data-bind="foreach: evolutions">
+                      <li class="pkmn-evolutions__item">
+                        <img data-bind="attr: {src: $data.sprite }" height="60" />
+                        <!-- ko ifnot: $data.hasOwnProperty("level") -->
+                          <a class="pkmn-name" data-bind="text: to + ' (method: ' + method + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
+                        <!-- /ko -->
+
+                        <!-- ko if: $data.hasOwnProperty("level") -->
+                          <a class="pkmn-name" data-bind="text: to + ' (level: ' + level + ')', attr: {'href' : '#/pkmn/' + $data.idDex }"></a>
+                        <!-- /ko -->
+                      </li>
+                    </ul>
+                  <!-- /ko -->
+
+                  <!-- ko if: abilities.length > 0 -->
+                    <h4 class="caracteristic">Abilities</h4>
+                    <ul class="pkmn-abilities list-unstyled" data-bind="foreach: abilities">
+                      <li class="pkmn-abilities__item" data-bind="text: $data"></li>
+                    </ul>
+                  <!-- /ko -->
+
+
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <h4 data-bind="if: Object.keys(moves).length > 0">Moves list</h4>
+                    <h4 data-bind="if: Object.keys(moves).length > 0" class="caracteristic">Moves list</h4>
                     <!-- ko foreach: Object.keys(moves).sort() -->
                       <div class="panel panel-default">
                         <!-- Default panel contents -->

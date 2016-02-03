@@ -16,6 +16,7 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
+  pointer-events: none;
 
   &.is-hidden {
     display: none;
@@ -28,8 +29,13 @@
   }
 }
 
+.caracteristic {
+  text-align: center;
+}
+
 .pokedex {
   font-style: 0;
+  padding: 0 20px;
 
   li.pokedex-entry {
     display: inline-block;
@@ -149,6 +155,19 @@
       margin: 0 auto;
     }
 
+    &.next-region, &.prev-region {
+      border: 2px black solid;
+      padding: 5px;
+      a {
+        display: table;
+        p {
+          display: table-cell;
+          vertical-align: bottom;
+        }  
+      }
+      
+    }
+
     p {
       text-transform: capitalize; 
       padding: 0 3px;
@@ -178,6 +197,7 @@
 
 .pkmn-modal {
   .modal-header {
+    border-bottom: none;
     .pkmn-name {
       vertical-align: middle;
     }
@@ -274,9 +294,23 @@
     }
   }
 
-  .pkmn-evolutions {
+  .modal-body {
+    border-top: 1px solid #E5E5E5;
+  }
+
+  .pkmn-abilities {
+
+  }
+
+  .pkmn-evolutions, .pkmn-abilities {
     display: table;
     width: 100%;
+
+    .pkmn-abilities__item {
+      text-align: center;
+      display: table-cell;
+      text-transform: capitalize;
+    }
 
     .pkmn-evolutions__item {
       display: table-cell;
