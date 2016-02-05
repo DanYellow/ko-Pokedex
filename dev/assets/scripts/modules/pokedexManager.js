@@ -54,7 +54,7 @@ var PokedexManager = function PokedexManager () {
 
   this.fetchAllPokemon = function fetchAllPokemon(region) {
     $.ajax({
-      url: "http://pokeapi.co/api/v1/pokedex/1/",
+      url: 'http://pokeapi.co/api/v1/pokedex/1/',
       cache: false
     })
     .done(function( result ) {

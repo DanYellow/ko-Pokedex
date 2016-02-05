@@ -17,9 +17,15 @@ crossroads.addRoute('region/{name}', function(name){
   document.getElementById('loader').classList.remove("is-hidden");
 });
 
-crossroads.addRoute(':rest*:', function(name){
+// crossroads.addRoute(':rest*:', function(name){
+//   pokedexManager.fetchPokemonByRegion('all');
+//   document.getElementById('loader').classList.remove("is-hidden");
+// }, -Infinity);
+
+crossroads.bypassed.add(function(request){
   pokedexManager.fetchPokemonByRegion('all');
-}, -Infinity);
+  document.getElementById('loader').classList.remove("is-hidden");
+});
 
 ko.applyBindings(pokedexManager);
 

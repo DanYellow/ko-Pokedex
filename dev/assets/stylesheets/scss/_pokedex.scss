@@ -52,6 +52,9 @@
       $color: #764ab9;
 
       border-color: #764ab9;
+      &:hover {
+        border-color: lighter($color, 20%);
+      }
       .pkmn-idDex {
         color: #764ab9;
       }
@@ -69,6 +72,9 @@
       $color: #849491;
 
       border-color: $color;
+      &:hover {
+        border-color: darken($color, 20%);
+      }
       .pkmn-idDex {
         color: $color;
       }
@@ -86,6 +92,9 @@
       $color: #03821c;
 
       border-color: $color;
+      &:hover {
+        border-color: darken($color, 20%);
+      }
       .pkmn-idDex {
         color: $color;
       }
@@ -103,6 +112,9 @@
       $color: #007a99;
 
       border-color: $color;
+      &:hover {
+        border-color: darken($color, 20%);
+      }
       .pkmn-idDex {
         color: $color;
       }
@@ -120,6 +132,9 @@
       $color: #0d6cfc;
 
       border-color: $color;
+      &:hover {
+        border-color: darken($color, 20%);
+      }
       .pkmn-idDex {
         color: $color;
       }
@@ -137,6 +152,9 @@
       $color: #c79dff;
 
       border-color: $color;
+      &:hover {
+        border-color: darken($color, 20%);
+      }
       .pkmn-idDex {
         color: $color;
       }
@@ -299,7 +317,7 @@
   }
 
   .pkmn-abilities {
-
+    table-layout: fixed;
   }
 
   .pkmn-evolutions, .pkmn-abilities {
